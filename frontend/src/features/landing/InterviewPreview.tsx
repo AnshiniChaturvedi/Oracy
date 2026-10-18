@@ -1,0 +1,167 @@
+"use client";
+
+import { useState, type CSSProperties } from "react";
+import { Container, Eyebrow } from "@/components/Container";
+import { Portrait } from "@/components/Portrait";
+import { Reveal, SplitText } from "@/components/Reveal";
+import { siteConfig } from "@/lib/site";
+
+const BARS = [30, 52, 38, 70, 44, 86, 60, 34, 78, 50, 92, 64, 40, 72, 48, 88, 56, 36, 68, 82, 46, 74, 58, 90, 42, 66, 80, 52, 38, 76, 54, 84, 44, 62, 32, 48];
+
+type Segment = { t: string; filler?: boolean };
+
+const samples = [
+  {
+    tab: "Behavioural",
+    meta: "Question 1 of 3",
+    q: "Tell me about a project where you had to change your approach midway.",
+    answer: [
+      { t: "In my final-year project we planned a rule-based recommender, " },
+      { t: "um", filler: true },
+      { t: ", but early tests showed it was too rigid. I switched to embeddings, " },
+      { t: "like", filler: true },
+      { t: ", re-ran the evaluation, and cut irrelevant results noticeably." },
+    ] as Segment[],
+    speech: { rate: "148 wpm", fillers: "2 detected", pauses: "1 long pause" },
+    vision: ["Posture: upright", "Gaze: mostly on camera", "Framing: centred"],
+    nlp: [["Relevance", 84], ["Structure", 72], ["Grammar", 90], ["Completeness", 68]] as [string, number][],
+  },
+  {
+    tab: "Adaptive follow-up",
+    meta: "Follow-up to Question 1",
+    q: "You mentioned embeddings. How did you decide the new approach was actually better?",
+    answer: [
+      { t: "I compared both versions on a small labelled set, " },
+      { t: "so", filler: true },
+      { t: " I measured precision at five and checked a few examples by hand before committing." },
+    ] as Segment[],
+    speech: { rate: "136 wpm", fillers: "1 detected", pauses: "0 long pauses" },
+    vision: ["Posture: slightly leaning", "Gaze: drifting right", "Framing: centred"],
+    nlp: [["Relevance", 91], ["Structure", 80], ["Grammar", 88], ["Completeness", 76]] as [string, number][],
+  },
+  {
+    tab: "Technical",
+    meta: "Question 2 of 3",
+    q: "Explain how you would design a rate limiter for a public API.",
+    answer: [
+      { t: "I’d start with a token bucket per API key, stored in a fast shared cache, " },
+      { t: "uh", filler: true },
+      { t: ", and return a retry-after header when the bucket is empty." },
+    ] as Segment[],
+    speech: { rate: "160 wpm", fillers: "1 detected", pauses: "2 long pauses" },
+    vision: ["Posture: upright", "Gaze: on camera", "Framing: slightly low"],
+    nlp: [["Relevance", 88], ["Structure", 70], ["Grammar", 86], ["Completeness", 62]] as [string, number][],
+  },
+];
+
+export function InterviewPreview() {
+  const [active, setActive] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const s = samples[active];
+
+  return (
+    <section id="preview" className="scroll-mt-20 border-y border-line bg-card/60 py-28 md:py-40">
+      <Container>
+        <Reveal><Eyebrow>Interview preview</Eyebrow></Reveal>
+        <SplitText text="Sit the interview. Watch every *signal.*" className="mt-6 max-w-4xl font-display text-display" />
+        <p className="mt-6 max-w-2xl text-lg text-ink/65">
+          A mock-up of the planned interview room. <strong className="font-medium text-cobalt">Sample interface with illustrative data</strong>: nothing here is being recorded or analysed.
+        </p>
+
+        <Reveal className="mt-14" variant="scale">
+          <div className="overflow-hidden rounded-[2rem] border border-line bg-card shadow-lift" data-paused={!playing}>
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line px-5 py-4 sm:px-8">
+              <div role="tablist" aria-label="Sample questions" className="flex flex-wrap gap-2">
+                {samples.map((x, i) => (
+                  <button
+                    key={x.tab}
+                    role="tab"
+                    id={`tab-${i}`}
+                    aria-selected={active === i}
+                    aria-controls="preview-panel"
+                    onClick={() => setActive(i)}
+                    className={`rounded-full px-4 py-2 text-sm transition ${active === i ? "bg-cobalt text-white" : "border border-line text-ink/70 hover:border-cobalt hover:text-cobalt"}`}
+                  >
+                    {x.tab}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                aria-pressed={playing}
+                onClick={() => setPlaying((p) => !p)}
+                className="flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-ink/70 transition hover:border-cobalt hover:text-cobalt"
+              >
+                <span className={`h-2 w-2 rounded-full ${playing ? "bg-cobalt" : "bg-mute"}`} aria-hidden="true" />
+                {playing ? "Pause sample" : "Play sample"}
+              </button>
+            </div>
+
+            <div id="preview-panel" role="tabpanel" aria-labelledby={`tab-${active}`} className="grid lg:grid-cols-12">
+              <div className="space-y-8 p-6 sm:p-8 lg:col-span-7 lg:p-10">
+                <div>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cobalt">{s.meta}</p>
+                  <h3 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">{s.q}</h3>
+                </div>
+
+                <div>
+                  <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Sample transcript</p>
+                  <p className="rounded-2xl border border-line bg-card p-5 leading-relaxed text-ink/85">
+                    {s.answer.map((seg, i) =>
+                      seg.filler ? (
+                        <mark key={i} className="rounded bg-cobalt/10 px-1 text-cobalt-deep">{seg.t}</mark>
+                      ) : (
+                        <span key={i}>{seg.t}</span>
+                      ),
+                    )}
+                  </p>
+                </div>
+
+                <div>
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Voice</p>
+                    <p className="font-mono text-xs text-ink/60">{s.speech.rate} · {s.speech.fillers} · {s.speech.pauses}</p>
+                  </div>
+                  <div className="flex h-24 items-center gap-[3px] rounded-2xl border border-line bg-card px-4" aria-hidden="true">
+                    {BARS.map((h, i) => (
+                      <span key={i} className="bar block flex-1 rounded-full bg-cobalt" style={{ height: `${h}%`, opacity: 0.35 + h / 160, "--i": i } as CSSProperties} />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Answer evaluation</p>
+                  <ul className="grid gap-4 sm:grid-cols-2">
+                    {s.nlp.map(([label, value]) => (
+                      <li key={label}>
+                        <div className="mb-1.5 flex justify-between text-sm text-ink/75">
+                          <span>{label}</span>
+                          <span className="font-mono">{value}</span>
+                        </div>
+                        <div className="meter h-1.5 overflow-hidden rounded-full bg-line" role="img" aria-label={`${label} ${value} out of 100, illustrative`}>
+                          <i className="rounded-full bg-cobalt" style={{ width: `${value}%` }} />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="relative min-h-[420px] border-t border-line lg:col-span-5 lg:border-l lg:border-t-0">
+                <Portrait photo={siteConfig.photography.preview} alt="Sample camera view with analysis overlay" landmarks />
+                <div className="absolute inset-x-0 bottom-0 space-y-2 p-5 sm:p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Visual analysis · estimates</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {s.vision.map((v) => (
+                      <li key={v} className="rounded-full border border-line bg-card/85 px-3 py-1.5 text-xs text-ink/85 backdrop-blur">{v}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
