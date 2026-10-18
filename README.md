@@ -1,81 +1,93 @@
-# Oracy
+# 🎙️ Oracy
 
-**AI-Powered Multimodal Interview Preparation and Readiness Assessment System**
+<h3 align="center">AI-Powered Multimodal Interview Preparation</h3>
 
-Oracy helps candidates prepare for interviews by combining resume understanding, personalized questions, and multimodal analysis of how they answer (content, speech, and on-camera presentation), then turning the results into an explainable readiness score and actionable feedback.
+<p align="center">
+  Practice interviews, improve communication, and track your readiness with AI.
+</p>
 
-> **Status: early scaffolding.** Only the repository structure, documentation, and a minimal backend skeleton (`GET /api/v1/health`) exist. No ML pipeline, authentication, database migration, or UI page is implemented. A folder existing does not mean the feature works.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Next.js-Frontend-black?style=flat-square&logo=next.js"/>
+  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi"/>
+  <img src="https://img.shields.io/badge/Python-ML%20Engine-3776AB?style=flat-square&logo=python&logoColor=white"/>
+</p>
 
-## Planned features
+---
 
-1. Resume upload and candidate profile extraction
-2. Personalized interview questions based on resume and target role
-3. Adaptive follow-up questions based on candidate responses
-4. NLP-based answer evaluation (relevance, structure, grammar, completeness)
-5. Speech analysis (speaking rate, pauses, filler words, hesitation, fluency)
-6. Computer vision analysis (posture, gaze direction, movement, camera framing)
-7. ML-based scoring (technical knowledge, answer quality, communication, presentation)
-8. Explainable Interview Readiness Score
-9. Personalized feedback and improvement recommendations
-10. Dashboard for tracking performance across sessions
+## ✨ Overview
 
-Facial, gaze, and presentation metrics are **estimates**, not measures of personality or employability.
+**Oracy** is an AI-powered interview preparation platform designed to help candidates practice personalized interviews and improve their performance through multimodal analysis.
 
-## Technology stack
+## 🚀 Features
 
-| Area | Technology |
+- 📄 **Resume Analysis** — Extract candidate skills, projects, and experience.
+- 🎯 **Personalized Questions** — Generate role-specific interview questions.
+- 🔄 **Adaptive Interviews** — Ask follow-up questions based on responses.
+- 🧠 **Answer Evaluation** — Assess relevance, structure, grammar, and completeness.
+- 🎤 **Speech Analysis** — Analyze speaking rate, pauses, filler words, and fluency.
+- 👁️ **Visual Analysis** — Estimate posture, gaze, movement, and camera framing.
+- 📊 **Readiness Score** — Provide explainable performance scores.
+- 💡 **AI Feedback** — Recommend personalized improvements.
+- 📈 **Progress Dashboard** — Track performance across practice sessions.
+
+## 🛠️ Tech Stack
+
+| Component | Technologies |
 |---|---|
-| Frontend | Next.js App Router, React, TypeScript, Tailwind CSS |
-| Backend | Python, FastAPI, REST (`/api/v1`) |
+| Frontend | Next.js, React, TypeScript, Tailwind CSS |
+| Backend | Python, FastAPI |
 | Database | PostgreSQL |
-| NLP | spaCy, Sentence Transformers, LLM API abstraction |
+| NLP & ML | spaCy, Sentence Transformers, scikit-learn |
 | Speech | Whisper, librosa |
-| Vision | OpenCV, MediaPipe |
-| ML | scikit-learn |
-| Storage | Local (dev), S3 abstraction |
-| Deployment | Docker (cloud config later) |
-| Testing | pytest; frontend test setup TBD |
+| Computer Vision | OpenCV, MediaPipe |
+| Storage | Local Storage, AWS S3 abstraction |
+| Infrastructure | Docker |
 
-## Repository map
+## 🏗️ Project Structure
 
-```
+```text
 oracy/
-├── frontend/          Next.js UI (to be scaffolded)
-├── backend/           FastAPI app: REST, validation, DB, orchestration
-├── ml-engine/         Resume parsing, question generation, evaluation, scoring, feedback
-├── speech-analysis/   Transcription, audio features, fluency metrics
-├── vision-engine/     Pose, gaze, movement, framing analysis
-├── shared/            API contracts and schemas shared across components
-├── docs/              Architecture and development documentation
-├── scripts/           Developer utility scripts
-├── .env.example       Placeholder environment variables
-├── docker-compose.yml PostgreSQL for local development
-└── Makefile           Common dev commands
+├── frontend/          # Next.js application
+├── backend/           # FastAPI backend
+├── ml-engine/         # NLP, scoring, feedback
+├── speech-analysis/   # Audio processing
+├── vision-engine/     # Computer vision
+├── shared/            # Shared schemas
+├── docs/              # Documentation
+├── scripts/           # Utility scripts
+├── .env.example
+├── docker-compose.yml
+├── Makefile
+└── README.md
 ```
 
-See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for details.
+## 📍 Development Roadmap
 
-## Setup status
+- [ ] Frontend and database setup
+- [ ] Resume parsing and question generation
+- [ ] NLP answer evaluation and adaptive interviews
+- [ ] Speech and visual analysis
+- [ ] Readiness scoring and personalized feedback
+- [ ] Progress dashboard and deployment
 
-| Item | Status |
-|---|---|
-| Repository structure and docs | Done (initial) |
-| Backend skeleton + health endpoint | Done (untested in scaffolding environment) |
-| PostgreSQL via docker-compose | Config only |
-| Frontend scaffold | Not started |
-| Database models/migrations | Not started |
-| ML, speech, vision modules | Not started |
-| CI workflow, root Dockerfile | Not started |
+## 📚 Documentation
 
-## Roadmap
+- [Project Structure](docs/PROJECT_STRUCTURE.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [API Design](docs/API_DESIGN.md)
+- [Database Schema](docs/DATABASE_SCHEMA.md)
+- [ML Pipeline](docs/ML_PIPELINE.md)
+- [Development Guide](docs/DEVELOPMENT_GUIDE.md)
 
-1. **Foundation:** frontend scaffold, DB models and migrations, CI.
-2. **Resume and questions:** resume upload, parsing, question generation.
-3. **Answer evaluation:** transcription, NLP evaluation, adaptive follow-ups.
-4. **Multimodal:** speech fluency metrics, vision metrics.
-5. **Scoring and feedback:** configurable explainable readiness score, feedback generation.
-6. **Dashboard and hardening:** session history, background processing, security review, deployment.
+## ⚠️ Project Status
 
-## Documentation
+Oracy is in its **early development stage**. The repository structure, documentation, and minimal backend health endpoint are scaffolded. The frontend, database migrations, and AI analysis pipelines are not yet implemented.
 
-[Project structure](docs/PROJECT_STRUCTURE.md) · [Architecture](docs/ARCHITECTURE.md) · [API design](docs/API_DESIGN.md) · [Database schema](docs/DATABASE_SCHEMA.md) · [ML pipeline](docs/ML_PIPELINE.md) · [Development guide](docs/DEVELOPMENT_GUIDE.md)
+*Visual presentation metrics are estimates and should not be treated as measures of personality or employability.*
+
+---
+
+<p align="center">
+  <strong>🎙️ Oracy — Practice smarter. Interview better.</strong>
+</p>
