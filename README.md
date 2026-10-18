@@ -1,6 +1,6 @@
 # 🎙️ Oracy
 
-🌐 **Live Demo:** [https://oracy-nine.vercel.app/](https://oracy-nine.vercel.app/)
+🌐 **Live Demo:** [https://oracy-git-main-treat1.vercel.app/](https://oracy-git-main-treat1.vercel.app/)
 
 <h3 align="center">AI-Powered Multimodal Interview Preparation</h3>
 
