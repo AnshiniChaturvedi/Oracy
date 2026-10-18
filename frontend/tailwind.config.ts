@@ -12,6 +12,12 @@ const config: Config = {
         card: "#FFFFFF",             // cards
         cobalt: { DEFAULT: "#285FE8", deep: "#1D49B8", tint: "#EAF0FD" }, // electric cobalt
         mute: { DEFAULT: "#5F6B82", 2: "#8A94A8" },
+        // Dashboard additions
+        surface: "#EEF3FF",          // light blue surfaces
+        sub: "#64748B",              // secondary text
+        ok: "#10B981",               // success
+        warn: "#F59E0B",             // warning
+        bad: "#DC2626",              // error
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
