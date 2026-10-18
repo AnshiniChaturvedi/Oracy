@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useId, useRef, useState, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { Icon, type IconName } from "@/components/dashboard/Icon";
 
 /* ---------- layout ---------- */
@@ -43,9 +44,8 @@ export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?:
 
 /* ---------- small elements ---------- */
 
-type Tone = "sample" | "info" | "ok" | "warn" | "bad" | "neutral";
+type Tone = "info" | "ok" | "warn" | "bad" | "neutral";
 const tones: Record<Tone, string> = {
-  sample: "border-warn/40 bg-warn/10 text-amber-700",
   info: "border-cobalt/20 bg-surface text-cobalt-deep",
   ok: "border-ok/30 bg-ok/10 text-emerald-700",
   warn: "border-warn/40 bg-warn/10 text-amber-700",
@@ -56,9 +56,6 @@ const tones: Record<Tone, string> = {
 export function Badge({ tone = "neutral", children }: { tone?: Tone; children: ReactNode }) {
   return <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
-
-export const SampleBadge = () => <Badge tone="sample">Sample data</Badge>;
-export const YourDataBadge = () => <Badge tone="ok">Your data</Badge>;
 
 export function ProgressBar({ value, label, tone = "blue" }: { value: number; label: string; tone?: "blue" | "ok" | "warn" }) {
   const pct = Math.max(0, Math.min(100, Math.round(value)));
@@ -175,14 +172,20 @@ export function Modal({ onClose, title, description, children }: { onClose: () =
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
   const titleId = useId();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const previous = document.activeElement as HTMLElement | null;
     const el = panel.current;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const first = el?.querySelector<HTMLElement>("[data-autofocus]") ?? el?.querySelector<HTMLElement>(FOCUSABLE);
-    first?.focus();
+    first?.focus({ preventScroll: true });
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -209,9 +212,11 @@ export function Modal({ onClose, title, description, children }: { onClose: () =
       document.body.style.overflow = prevOverflow;
       previous?.focus();
     };
-  }, []);
+  }, [mounted]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/40 sm:items-center sm:p-6" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div ref={panel} role="dialog" aria-modal="true" aria-labelledby={titleId} className="max-h-[92svh] w-full max-w-xl overflow-y-auto rounded-t-2xl bg-card p-5 shadow-lift sm:rounded-2xl sm:p-7">
         <div className="mb-5 flex items-start justify-between gap-4">
@@ -225,6 +230,7 @@ export function Modal({ onClose, title, description, children }: { onClose: () =
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

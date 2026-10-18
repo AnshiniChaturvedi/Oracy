@@ -11,7 +11,7 @@ export function ScoreRing({ value, label = "Readiness", size = 220, valueClass =
       className={`relative ${inView ? "is-visible" : ""}`}
       style={{ width: size, height: size, "--v": value } as CSSProperties}
       role="img"
-      aria-label={`${label} score ${value} out of 100 (illustrative demo value)`}
+      aria-label={`${label} score ${value} out of 100; not based on a completed interview`}
     >
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
         <circle cx="60" cy="60" r="52" fill="none" stroke="#E5EBF4" strokeWidth="8" />

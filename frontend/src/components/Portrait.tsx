@@ -1,6 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { useId } from "react";
-import { siteConfig } from "@/lib/site";
+import { useId, useState } from "react";
 
 const BARS = [30, 52, 38, 70, 44, 86, 60, 34, 78, 50, 92, 64, 40, 72, 48, 88, 56, 36, 68, 82, 46, 74, 58, 90, 42, 66, 80, 52, 38, 76, 54, 84];
 
@@ -74,18 +75,28 @@ export function PortraitArt({ landmarks = false }: { landmarks?: boolean }) {
 }
 
 type PortraitProps = {
-  photo?: string;
+  photo?: string | null;
   alt?: string;
   landmarks?: boolean;
   className?: string;
 };
 
 export function Portrait({ photo, alt = "", landmarks = false, className = "" }: PortraitProps) {
-  const usePhoto = siteConfig.photography.enabled && photo;
+  const [failedPhoto, setFailedPhoto] = useState<string | null>(null);
+  const activePhoto = photo && photo !== failedPhoto ? photo : undefined;
   return (
     <div className={`relative h-full w-full overflow-hidden ${className}`}>
-      {usePhoto ? (
-        <Image src={photo} alt={alt} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" priority />
+      {activePhoto ? (
+        <Image
+          src={activePhoto}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          className="object-cover"
+          unoptimized
+          priority
+          onError={() => setFailedPhoto(activePhoto)}
+        />
       ) : (
         <PortraitArt landmarks={landmarks} />
       )}

@@ -3,7 +3,7 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/dashboard/Icon";
-import { Avatar, Card, CardHeader, Notice, PageHeader, ProgressBar, TextAreaField, YourDataBadge } from "@/components/dashboard/ui";
+import { Avatar, Card, CardHeader, Notice, PageHeader, ProgressBar, TextAreaField } from "@/components/dashboard/ui";
 import { TextField } from "@/components/forms/Field";
 import { useDashboard } from "@/features/dashboard/DashboardContext";
 import { ROLES, profileCompletion } from "@/lib/dashboard-data";
@@ -79,7 +79,7 @@ export function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow={<YourDataBadge />} title="My Profile" description="Tell Oracy about your studies and goals. Everything is stored in this browser only." />
+      <PageHeader title="My Profile" description="Tell Oracy about your studies and goals. Everything is stored in this browser only." />
 
       <div className="grid gap-6 lg:grid-cols-12">
         <form onSubmit={onSubmit} noValidate className="space-y-6 lg:col-span-8">

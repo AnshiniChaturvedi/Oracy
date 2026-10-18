@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, ButtonLink } from "@/components/Button";
 import { Icon } from "@/components/dashboard/Icon";
-import { Badge, Card, EmptyState, PageHeader, SampleBadge, SelectField } from "@/components/dashboard/ui";
+import { Badge, Card, EmptyState, PageHeader, SelectField } from "@/components/dashboard/ui";
 import { useDashboard } from "@/features/dashboard/DashboardContext";
 import { NoSessions, ScorePill, sessionDate } from "@/features/dashboard/parts";
 import { demoSessions } from "@/lib/demo-data";
@@ -49,7 +49,7 @@ export function HistoryPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow={sample ? <SampleBadge /> : undefined} title="Interview History" description="Review past sessions, scores and feedback." actions={<ButtonLink href="/interview">Start Mock Interview</ButtonLink>} />
+      <PageHeader title="Interview History" description="Review past sessions, scores and feedback." actions={<ButtonLink href="/interview">Start Mock Interview</ButtonLink>} />
 
       {!sample ? (
         <Card><NoSessions /></Card>
@@ -60,7 +60,7 @@ export function HistoryPage() {
             <SelectField label="Score" value={score} options={scoreOptions} onChange={(e) => setScore(e.target.value)} />
             <SelectField label="Sort by" value={sort} options={sortOptions} onChange={(e) => setSort(e.target.value)} />
           </div>
-          <p className="mt-4 text-sm text-sub" role="status">Showing {rows.length} of {demoSessions.length} sample sessions.</p>
+          <p className="mt-4 text-sm text-sub" role="status">Showing {rows.length} of {demoSessions.length} sessions. These are not from completed interviews.</p>
 
           {rows.length === 0 ? (
             <div className="mt-4">
@@ -87,7 +87,7 @@ export function HistoryPage() {
                     </div>
                     {expanded && (
                       <div id={`fb-${s.id}`} className="mt-4 rounded-xl bg-surface p-4">
-                        <p className="text-xs font-medium uppercase tracking-[0.14em] text-cobalt-deep">Feedback (sample)</p>
+                        <p className="text-xs font-medium uppercase tracking-[0.14em] text-cobalt-deep">Feedback preview</p>
                         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-ink">{s.feedback.map((f) => <li key={f}>{f}</li>)}</ul>
                       </div>
                     )}

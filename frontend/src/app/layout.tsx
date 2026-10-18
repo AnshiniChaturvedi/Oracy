@@ -9,7 +9,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 export const metadata: Metadata = {
   title: { default: "ORACY — Beyond Answers. Towards Excellence.", template: "%s · ORACY" },
   description:
-    "ORACY is a prototype AI interview preparation platform: personalised questions from your resume, and feedback on your answers, voice and presence.",
+    "ORACY helps you prepare for interviews with personalised questions and feedback on your answers, voice and presence.",
 };
 
 export const viewport: Viewport = {

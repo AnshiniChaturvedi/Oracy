@@ -10,7 +10,7 @@ const evaluation: [string, number][] = [
   ["Completeness", 68],
 ];
 
-/** Illustrative interview-analysis dashboard. All values are sample data. */
+/** Interview analysis dashboard preview. */
 export function HeroDashboard() {
   return (
     <div className="relative mx-auto w-full max-w-[520px] lg:max-w-none">
@@ -21,12 +21,11 @@ export function HeroDashboard() {
             <span className="h-2.5 w-2.5 rounded-full bg-line" />
             <span className="h-2.5 w-2.5 rounded-full bg-line" />
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/60">Interview room · sample</p>
-          <span className="rounded-full border border-cobalt/40 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-cobalt">Demo</span>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/60">Interview room</p>
         </div>
 
         <div className="relative aspect-[4/4.4] overflow-hidden">
-          <Portrait photo={siteConfig.photography.hero} alt="Sample camera view with posture, gaze and framing overlay" landmarks />
+          <Portrait photo={siteConfig.photography.hero} alt="Professional interview candidate with posture, gaze and framing overlay" landmarks />
           <div className="scanline pointer-events-none absolute inset-x-0 top-0 h-px bg-cobalt/70 shadow-[0_0_14px_1px_rgba(40,95,232,0.35)]" aria-hidden="true" />
           <ul className="absolute inset-x-0 bottom-0 flex flex-wrap gap-2 p-4">
             {["Posture: upright", "Gaze: on camera", "Framing: centred"].map((c) => (
@@ -54,12 +53,11 @@ export function HeroDashboard() {
         <ScoreRing value={demoOverallScore} size={92} valueClass="text-3xl" label="" />
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mute">Readiness score</p>
-          <p className="mt-1 text-sm text-ink/80">Sample value</p>
         </div>
       </div>
 
       <div className="mt-4 w-full rounded-2xl border border-line bg-card p-5 text-ink shadow-card lg:absolute lg:-right-6 lg:bottom-28 lg:mt-0 lg:w-64">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/60">Answer evaluation · sample</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/60">Answer evaluation</p>
         <ul className="mt-3 space-y-3">
           {evaluation.map(([label, value]) => (
             <li key={label}>

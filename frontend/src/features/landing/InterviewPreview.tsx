@@ -63,15 +63,15 @@ export function InterviewPreview() {
     <section id="preview" className="scroll-mt-20 border-y border-line bg-card/60 py-28 md:py-40">
       <Container>
         <Reveal><Eyebrow>Interview preview</Eyebrow></Reveal>
-        <SplitText text="Sit the interview. Watch every *signal.*" className="mt-6 max-w-4xl font-display text-display" />
+        <SplitText text="Sit the interview. Watch every signal." accent="signal." className="mt-6 max-w-4xl font-display text-display" />
         <p className="mt-6 max-w-2xl text-lg text-ink/65">
-          A mock-up of the planned interview room. <strong className="font-medium text-cobalt">Sample interface with illustrative data</strong>: nothing here is being recorded or analysed.
+          Explore the interview workspace, with example questions, answer transcripts and feedback. Nothing here is being recorded or analysed.
         </p>
 
         <Reveal className="mt-14" variant="scale">
           <div className="overflow-hidden rounded-[2rem] border border-line bg-card shadow-lift" data-paused={!playing}>
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line px-5 py-4 sm:px-8">
-              <div role="tablist" aria-label="Sample questions" className="flex flex-wrap gap-2">
+              <div role="tablist" aria-label="Preview questions" className="flex flex-wrap gap-2">
                 {samples.map((x, i) => (
                   <button
                     key={x.tab}
@@ -93,7 +93,7 @@ export function InterviewPreview() {
                 className="flex items-center gap-2 rounded-full border border-line px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-ink/70 transition hover:border-cobalt hover:text-cobalt"
               >
                 <span className={`h-2 w-2 rounded-full ${playing ? "bg-cobalt" : "bg-mute"}`} aria-hidden="true" />
-                {playing ? "Pause sample" : "Play sample"}
+                {playing ? "Pause preview" : "Play preview"}
               </button>
             </div>
 
@@ -105,7 +105,7 @@ export function InterviewPreview() {
                 </div>
 
                 <div>
-                  <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Sample transcript</p>
+                  <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Answer transcript</p>
                   <p className="rounded-2xl border border-line bg-card p-5 leading-relaxed text-ink/85">
                     {s.answer.map((seg, i) =>
                       seg.filler ? (
@@ -138,7 +138,7 @@ export function InterviewPreview() {
                           <span>{label}</span>
                           <span className="font-mono">{value}</span>
                         </div>
-                        <div className="meter h-1.5 overflow-hidden rounded-full bg-line" role="img" aria-label={`${label} ${value} out of 100, illustrative`}>
+                        <div className="meter h-1.5 overflow-hidden rounded-full bg-line" role="img" aria-label={`${label} score: ${value} out of 100`}>
                           <i className="rounded-full bg-cobalt" style={{ width: `${value}%` }} />
                         </div>
                       </li>
@@ -148,7 +148,7 @@ export function InterviewPreview() {
               </div>
 
               <div className="relative min-h-[420px] border-t border-line lg:col-span-5 lg:border-l lg:border-t-0">
-                <Portrait photo={siteConfig.photography.preview} alt="Sample camera view with analysis overlay" landmarks />
+                <Portrait photo={siteConfig.photography.preview} alt="Interview candidate with a visual analysis overlay" landmarks />
                 <div className="absolute inset-x-0 bottom-0 space-y-2 p-5 sm:p-6">
                   <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Visual analysis · estimates</p>
                   <ul className="flex flex-wrap gap-2">

@@ -29,7 +29,7 @@ export function SignUpForm() {
       email: validateEmail(v.email),
       password: validatePassword(v.password),
       confirm: validateConfirm(v.password, v.confirm),
-      ack: ack ? undefined : "Please confirm you understand this is a prototype.",
+      ack: ack ? undefined : "Please confirm that no online account will be created.",
     };
     setErrors(next);
     setServerError(null);
@@ -58,13 +58,13 @@ export function SignUpForm() {
       <div>
         <label className="flex cursor-pointer items-start gap-3 text-sm text-ink/75">
           <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} aria-invalid={errors.ack ? true : undefined} className="mt-0.5 h-4 w-4 accent-cobalt" />
-          <span>I understand ORACY is a prototype and this demo does not create a real account.</span>
+          <span>I understand my information stays in this browser and no online account is created.</span>
         </label>
         {errors.ack && <p className="mt-2 text-sm text-red-600">{errors.ack}</p>}
       </div>
 
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? (<><Spinner /> Creating demo account…</>) : "Create Account"}
+        {loading ? (<><Spinner /> Creating your profile…</>) : "Create Account"}
       </Button>
     </form>
   );

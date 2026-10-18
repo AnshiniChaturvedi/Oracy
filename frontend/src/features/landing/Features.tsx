@@ -16,7 +16,7 @@ export function Features() {
     <section id="features" className="scroll-mt-20 py-28 md:py-40">
       <Container>
         <Reveal><Eyebrow>Capabilities</Eyebrow></Reveal>
-        <SplitText text="Seven signals. One honest picture of *readiness.*" className="mt-6 max-w-5xl font-display text-display" />
+        <SplitText text="Seven signals. One honest picture of readiness." accent="readiness." className="mt-6 max-w-5xl font-display text-display" />
         <p className="mt-6 max-w-2xl text-lg text-ink/65">
           The platform is designed around seven connected capabilities. This page previews the intended experience; the analysis engines are still in development.
         </p>

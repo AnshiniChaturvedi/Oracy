@@ -7,12 +7,12 @@ import { Reveal, SplitText } from "@/components/Reveal";
 import { siteConfig } from "@/lib/site";
 
 const faqs = [
-  { q: "Is ORACY live today?", a: "No. ORACY is a student project in active development. This site is a front-end prototype: the sign-in is a local demo, and the scores, charts and analysis shown are illustrative samples." },
+  { q: "Is ORACY live today?", a: "ORACY is in active development. Sign-in is stored locally, and the scores, charts and analysis shown are not results from completed interviews." },
   { q: "What will ORACY analyse?", a: "The plan covers your resume, the content of your answers, your speech (pace, pauses, filler words) and your on-camera presence (posture, gaze, movement, framing)." },
   { q: "How accurate are the posture and gaze measures?", a: "They are estimates and can be affected by lighting, camera angle and individual differences. They are meant as practice hints, never as judgments of personality or employability." },
-  { q: "How is the readiness score calculated?", a: "The design makes it explainable and configurable, with the evidence for each component visible. Scoring weights have not been validated yet, so any number you see today is a demo value." },
-  { q: "What happens to my resume and recordings?", a: "Nothing is uploaded in this prototype. The planned design stores files securely, asks for consent before recording, and lets you delete your data." },
-  { q: "Do I need an account?", a: "Not to look around. You can open the interview setup and dashboard preview from this site, and the demo sign-in accepts any valid email without creating a real account." },
+  { q: "How is the readiness score calculated?", a: "The score is designed to show the evidence behind each component. The scoring weights have not been validated, and the figures shown are not generated from completed interviews." },
+  { q: "What happens to my resume and recordings?", a: "Nothing is uploaded or recorded. Your files stay on your device, and you can remove any locally saved profile data in Settings." },
+  { q: "Do I need an account?", a: "You can explore the site without signing in. Signing in stores a local session in this browser; no online account is created." },
 ];
 
 export function CtaFaq() {
@@ -28,9 +28,9 @@ export function CtaFaq() {
           <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/80 to-paper/10" />
         </div>
         <Container>
-          <SplitText text="Your next interview starts *here.*" className="max-w-4xl font-display text-hero" />
+          <SplitText text="Your next interview starts here." accent="here." className="max-w-4xl font-display text-hero" />
           <Reveal delay={200}>
-            <p className="mt-8 max-w-xl text-lg text-ink/70">Set up a practice interview, or create a demo account to preview your dashboard.</p>
+            <p className="mt-8 max-w-xl text-lg text-ink/70">Set up a practice interview or create an account to explore your dashboard.</p>
             <div className="mt-10 flex flex-wrap gap-4">
               <StartLink className="px-8 py-4 text-base" signedInHref="/dashboard">
                 Get Started <ArrowRight />
@@ -48,7 +48,7 @@ export function CtaFaq() {
           <div className="grid gap-14 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <Reveal><Eyebrow>FAQ</Eyebrow></Reveal>
-              <SplitText text="Straight *answers.*" className="mt-6 font-display text-display" />
+              <SplitText text="Straight answers." accent="answers." className="mt-6 font-display text-display" />
             </div>
             <div className="lg:col-span-8">
               {faqs.map((f, i) => (

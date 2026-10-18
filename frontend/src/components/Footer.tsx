@@ -54,9 +54,9 @@ export function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t border-line pt-8 text-sm text-mute md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} {siteConfig.name}. Student project prototype.</p>
+          <p>© {new Date().getFullYear()} {siteConfig.name}. Student project.</p>
           <p className="max-w-xl md:text-right">
-            Prototype interface. Sign-in is a local demo and all scores, charts, and analysis shown are illustrative samples, not real results.
+            Sign-in and profile preferences are stored in this browser. No interview results are available yet.
             Posture, gaze, and presentation metrics are estimates, not measures of personality or employability.
           </p>
         </div>

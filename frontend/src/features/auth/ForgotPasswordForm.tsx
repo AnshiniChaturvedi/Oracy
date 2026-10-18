@@ -38,7 +38,7 @@ export function ForgotPasswordForm() {
   if (done) {
     return (
       <div role="status" className="rounded-2xl border border-line bg-card p-6">
-        <h2 className="font-display text-3xl">Request recorded (demo)</h2>
+        <h2 className="font-display text-3xl">Request recorded</h2>
         <p className="mt-3 text-ink/70">No email was sent because there is no password-reset backend yet. In the real product, a reset link would go to {email.trim()}.</p>
         <Link href="/login" className="mt-5 inline-block text-cobalt underline-offset-4 hover:underline">Back to sign in</Link>
       </div>

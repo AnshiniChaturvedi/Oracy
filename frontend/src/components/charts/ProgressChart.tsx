@@ -20,7 +20,7 @@ export function ProgressChart({ points }: { points: number[] }) {
 
   return (
     <div ref={ref} className={inView ? "is-visible" : ""}>
-      <svg viewBox={`0 0 ${w} ${h}`} className="h-auto w-full" role="img" aria-label={`Illustrative progress over ${points.length} sample sessions, from ${points[0]} to ${points[points.length - 1]}`}>
+      <svg viewBox={`0 0 ${w} ${h}`} className="h-auto w-full" role="img" aria-label={`Progress across ${points.length} sessions, from ${points[0]} to ${points[points.length - 1]}; not based on completed interviews`}>
         <defs>
           <linearGradient id="pc-area" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#285FE8" stopOpacity="0.22" />

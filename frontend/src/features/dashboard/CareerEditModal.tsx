@@ -59,7 +59,7 @@ export function CareerEditModal({ onClose, onSaved }: { onClose: () => void; onS
   }
 
   return (
-    <Modal onClose={onClose} title="Edit career goals" description="These preferences shape your recommendations and skill-gap checklist. Saved in this browser.">
+    <Modal onClose={onClose} title="Edit career goals" description="These preferences shape your practice guidance and skill checklist. Saved in this browser.">
       <form onSubmit={onSubmit} noValidate className="space-y-5">
         <div>
           <TextField label="Target job role" list="career-roles" value={role} onChange={(e) => setRole(e.target.value)} error={errors.role} placeholder="e.g. Backend Engineer" maxLength={60} data-autofocus />

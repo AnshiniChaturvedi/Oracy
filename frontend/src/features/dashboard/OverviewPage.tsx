@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button, ButtonLink } from "@/components/Button";
 import { ArrowRight } from "@/components/Icons";
 import { Icon } from "@/components/dashboard/Icon";
-import { Avatar, Badge, Card, CardHeader, EmptyState, Notice, ProgressBar, SampleBadge, YourDataBadge } from "@/components/dashboard/ui";
+import { Avatar, Badge, Card, CardHeader, EmptyState, Notice, ProgressBar } from "@/components/dashboard/ui";
 import { ScoreRing } from "@/components/charts/ScoreRing";
 import { CareerEditModal } from "@/features/dashboard/CareerEditModal";
 import { useDashboard } from "@/features/dashboard/DashboardContext";
@@ -56,7 +56,7 @@ export function OverviewPage() {
               <Button variant="outline" onClick={() => setCareerOpen(true)}>Edit Career Goals</Button>
             </div>
             {weak ? (
-              <p className="mt-4 text-xs text-sub">Weakest skill: {weak.name}{weak.score !== undefined ? ` (${weak.score})` : ""} · {weak.basis === "sample" ? "based on sample data" : "from your Career Launchpad"}</p>
+              <p className="mt-4 text-xs text-sub">Weakest skill: {weak.name}{weak.score !== undefined ? ` (${weak.score})` : ""}{weak.basis === "your data" ? " · from your Career Launchpad" : ""}</p>
             ) : (
               <p className="mt-4 text-xs text-sub">Your weakest skill appears here once you add skill gaps or complete an interview.</p>
             )}
@@ -64,12 +64,26 @@ export function OverviewPage() {
 
           <div className="flex items-center justify-center lg:justify-end">
             <div className="w-full max-w-[240px] rounded-[28px] border border-line bg-white p-4 shadow-card">
-              <div className="flex justify-center">
+              <div className="relative flex justify-center">
                 <Avatar name={profileName} photo={data.profile.photo} size={132} />
+                <Link
+                  href="/dashboard/profile#pr-photo"
+                  aria-label="Edit profile photo"
+                  title="Edit profile photo"
+                  className="absolute bottom-0 right-[calc(50%-4.125rem)] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink shadow-card transition hover:border-cobalt hover:text-cobalt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cobalt"
+                >
+                  <Icon name="edit" className="h-4 w-4" />
+                </Link>
               </div>
               <div className="mt-4 text-center">
                 <p className="font-medium text-ink">{profileName}</p>
-                <p className="mt-1 text-sm text-sub">{data.career.role.trim() || "Set your target role"}</p>
+                {data.career.role.trim() ? (
+                  <p className="mt-1 text-sm text-sub">{data.career.role}</p>
+                ) : (
+                  <Link href="/dashboard/career" className="mt-1 inline-flex text-sm font-medium text-cobalt underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cobalt">
+                    Set your target role
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -79,7 +93,7 @@ export function OverviewPage() {
       <div className="grid gap-6 lg:grid-cols-12">
         {/* Readiness */}
         <Card className="lg:col-span-5" labelledBy="readiness-h">
-          <CardHeader id="readiness-h" title="Interview readiness" badge={sample ? <SampleBadge /> : undefined} />
+          <CardHeader id="readiness-h" title="Interview readiness" />
           {sample ? (
             <div className="flex flex-col items-center">
               <ScoreRing value={demoOverallScore} label="Readiness" size={176} valueClass="text-5xl" />
@@ -87,13 +101,13 @@ export function OverviewPage() {
               <div className="mt-4 w-full">
                 <div className="mb-2 flex justify-between text-xs text-sub"><span>Progress to a target of 85</span><span className="font-mono">{Math.max(0, 85 - demoOverallScore)} to go</span></div>
                 <ProgressBar value={(demoOverallScore / 85) * 100} label="Progress toward readiness target of 85" />
-                <p className="mt-2 text-xs text-sub">Up {gain} points across {demoProgress.length} sample sessions.</p>
+                <p className="mt-2 text-xs text-sub">Up {gain} points across {demoProgress.length} sessions.</p>
               </div>
               <div className="mt-5 w-full rounded-xl bg-surface p-4 text-sm text-ink">
-                <p className="text-xs font-medium uppercase tracking-[0.14em] text-cobalt-deep">Recommended improvement</p>
-                <p className="mt-1">Raise {weak?.name ?? "your weakest skill"}: it’s your lowest sample score.</p>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-cobalt-deep">Focus area</p>
+                <p className="mt-1">Raise {weak?.name ?? "your weakest skill"}: it’s your lowest displayed score.</p>
               </div>
-              <p className="mt-4 text-xs text-sub">Sample values for illustration. No real interview has been analysed.</p>
+              <p className="mt-4 text-xs text-sub">These scores are not from completed interviews.</p>
             </div>
           ) : (
             <EmptyState icon="target" title="No readiness score yet" text="Your score is created from a completed mock interview. Until then there’s nothing to score, and we won’t guess." action={<ButtonLink href="/interview">Start your first interview</ButtonLink>} />
@@ -102,7 +116,7 @@ export function OverviewPage() {
 
         {/* Next best action */}
         <section aria-labelledby="next-h" className="min-w-0 rounded-2xl border border-cobalt/20 bg-gradient-to-br from-surface to-white p-5 shadow-card sm:p-6 lg:col-span-7">
-          <CardHeader id="next-h" title="Your Next Best Action" badge={<Badge tone={next.basis === "sample" ? "sample" : "info"}>{next.basis === "sample" ? "Sample recommendation" : next.basis === "your data" ? "From your goals" : "Getting started"}</Badge>} />
+          <CardHeader id="next-h" title="Your next step" />
           <div className="flex items-start gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cobalt text-white shadow-lift"><Icon name="sparkle" /></span>
             <div className="min-w-0">
@@ -133,7 +147,7 @@ export function OverviewPage() {
 
         {/* Skill performance */}
         <Card className="lg:col-span-7" labelledBy="skills-h">
-          <CardHeader id="skills-h" title="Skill performance" badge={sample ? <SampleBadge /> : undefined} action={<Link href="/dashboard/performance" className="text-sm font-medium text-cobalt hover:underline">Open Performance Lab</Link>} />
+          <CardHeader id="skills-h" title="Skill performance" action={<Link href="/dashboard/performance" className="text-sm font-medium text-cobalt hover:underline">Open Performance Lab</Link>} />
           {sample ? (
             <div className="space-y-6">
               <SampleSkillBars />
@@ -146,7 +160,7 @@ export function OverviewPage() {
 
         {/* Profile completion */}
         <Card className="lg:col-span-5" labelledBy="profile-h">
-          <CardHeader id="profile-h" title="Profile completion" badge={<YourDataBadge />} />
+          <CardHeader id="profile-h" title="Profile completion" />
           <div className="flex items-end justify-between">
             <p className="font-display text-5xl text-ink">{completion.percent}<span className="text-2xl text-sub">%</span></p>
             <p className="pb-1 text-sm text-sub">{completion.filled} of {completion.total} fields</p>
@@ -167,7 +181,7 @@ export function OverviewPage() {
 
         {/* Daily plan */}
         <Card className="lg:col-span-6" labelledBy="plan-h">
-          <CardHeader id="plan-h" title="Today’s practice plan" badge={<YourDataBadge />} action={<Link href="/dashboard/plan" className="text-sm font-medium text-cobalt hover:underline">Edit plan</Link>} />
+          <CardHeader id="plan-h" title="Today’s practice plan" action={<Link href="/dashboard/plan" className="text-sm font-medium text-cobalt hover:underline">Edit plan</Link>} />
           {tasks.length === 0 ? (
             <EmptyState icon="calendar" title="Your plan is empty" text="Add a few short tasks to build a daily routine." action={<ButtonLink href="/dashboard/plan">Add tasks</ButtonLink>} />
           ) : (
@@ -182,7 +196,7 @@ export function OverviewPage() {
 
         {/* Weekly progress */}
         <Card className="lg:col-span-6" labelledBy="week-h">
-          <CardHeader id="week-h" title="Weekly progress" badge={<YourDataBadge />} />
+          <CardHeader id="week-h" title="Weekly progress" />
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-line p-4">
               <p className="text-xs text-sub">Tasks this week</p>
@@ -195,12 +209,12 @@ export function OverviewPage() {
           </div>
           <div className="mt-4"><ProgressBar value={(weekDone / data.plan.weeklyTasks) * 100} label="Weekly goal completion" tone={weekDone >= data.plan.weeklyTasks ? "ok" : "blue"} /></div>
           <div className="mt-5"><WeekBars /></div>
-          {sample && <p className="mt-4 flex flex-wrap items-center gap-2 text-sm text-sub"><SampleBadge /> Sample trend: readiness up {gain} points across {demoProgress.length} sessions.</p>}
+          {sample && <p className="mt-4 text-sm text-sub">Readiness up {gain} points across {demoProgress.length} sessions.</p>}
         </Card>
 
         {/* Career */}
         <Card className="lg:col-span-6" labelledBy="career-h">
-          <CardHeader id="career-h" title="Career Launchpad" badge={<YourDataBadge />} action={<Link href="/dashboard/career" className="text-sm font-medium text-cobalt hover:underline">Open</Link>} />
+          <CardHeader id="career-h" title="Career Launchpad" action={<Link href="/dashboard/career" className="text-sm font-medium text-cobalt hover:underline">Open</Link>} />
           {!data.career.role.trim() ? (
             <EmptyState icon="briefcase" title="Set your target" text="Choose a role, companies and a deadline to get a tailored skill-gap checklist." action={<Button onClick={() => setCareerOpen(true)}>Edit career goals</Button>} />
           ) : (
@@ -218,7 +232,7 @@ export function OverviewPage() {
 
         {/* Recent sessions */}
         <Card className="lg:col-span-6" labelledBy="recent-h">
-          <CardHeader id="recent-h" title="Recent interview sessions" badge={sample ? <SampleBadge /> : undefined} action={sample ? <Link href="/dashboard/history" className="text-sm font-medium text-cobalt hover:underline">See all</Link> : undefined} />
+          <CardHeader id="recent-h" title="Recent interview sessions" action={sample ? <Link href="/dashboard/history" className="text-sm font-medium text-cobalt hover:underline">See all</Link> : undefined} />
           <RecentSessions limit={3} />
         </Card>
       </div>

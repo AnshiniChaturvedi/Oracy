@@ -38,7 +38,7 @@ function SignedOut() {
       <div className="w-full max-w-md rounded-2xl border border-line bg-card p-8 text-center shadow-card">
         <div className="flex justify-center"><Logo /></div>
         <h1 className="mt-8 font-display text-3xl text-ink">Sign in to open your dashboard</h1>
-        <p className="mt-3 text-sub">The dashboard is available to signed-in students. Sign-in is a local demo for now, so any valid email works.</p>
+        <p className="mt-3 text-sub">The dashboard is available to signed-in students. Sign in with any valid email to continue.</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <ButtonLink href="/login">Sign In</ButtonLink>
           <ButtonLink href="/signup" variant="outline">Create Account</ButtonLink>
@@ -141,7 +141,7 @@ function SignedInShell({ session, children }: { session: Session; children: Reac
 
           <div className="space-y-3 border-t border-line p-4">
             <div className="rounded-xl bg-surface p-3 text-xs leading-relaxed text-sub">
-              <span className="font-medium text-cobalt-deep">Demo mode.</span> Preferences are saved in this browser only. No interviews have been analysed.
+              Preferences are saved in this browser. No interviews have been analysed.
             </div>
             <button type="button" onClick={handleSignOut} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/75 transition hover:bg-paper hover:text-cobalt">
               <Icon name="logout" className="h-[18px] w-[18px]" /> Sign out
@@ -167,16 +167,6 @@ function SignedInShell({ session, children }: { session: Session; children: Reac
 
           <main id="main" tabIndex={-1} className="px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
             <div className="mx-auto max-w-6xl">
-              {data.sampleMode && (
-                <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3 text-sm text-amber-900">
-                  <p className="min-w-0">
-                    <strong className="font-medium">Sample data is on.</strong> Scores, trends and sessions marked “Sample” are illustrative. Your profile, goals and plan are real and saved in this browser.
-                  </p>
-                  <button type="button" onClick={() => update((d) => ({ ...d, sampleMode: false }))} className="rounded-full border border-warn/60 bg-card px-4 py-1.5 text-sm font-medium text-amber-800 transition hover:bg-warn/10">
-                    Hide sample data
-                  </button>
-                </div>
-              )}
               {children}
             </div>
           </main>

@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/dashboard/Icon";
-import { Card, CardHeader, EmptyState, Notice, PageHeader, ProgressBar, SelectField, YourDataBadge } from "@/components/dashboard/ui";
+import { Card, CardHeader, EmptyState, Notice, PageHeader, ProgressBar, SelectField } from "@/components/dashboard/ui";
 import { TextField } from "@/components/forms/Field";
 import { useDashboard } from "@/features/dashboard/DashboardContext";
 import { WeekBars } from "@/features/dashboard/parts";
@@ -50,7 +50,7 @@ export function PlanPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow={<YourDataBadge />} title="Daily Practice Plan" description="A starter plan you can edit. Tick tasks off as you go. Your progress is saved in this browser." />
+      <PageHeader title="Daily Practice Plan" description="A starter plan you can edit. Tick tasks off as you go. Your progress is saved in this browser." />
       {saved && <Notice>{saved}</Notice>}
 
       <div className="grid gap-6 lg:grid-cols-12">

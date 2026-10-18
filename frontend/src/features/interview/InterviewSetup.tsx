@@ -29,7 +29,7 @@ export function InterviewSetup() {
     <Container className="pb-28 pt-32 md:pt-40">
       <Eyebrow>Interview setup</Eyebrow>
       <h1 className="mt-6 max-w-3xl font-display text-display">Set up your practice <span className="italic text-cobalt">interview.</span></h1>
-      <p className="mt-6 max-w-2xl text-lg text-ink/65">Choose a role and add your resume. In this prototype the form is validated in your browser only.</p>
+      <p className="mt-6 max-w-2xl text-lg text-ink/65">Choose a role and add your resume. Your file stays in this browser.</p>
 
       <div className="mt-12 grid gap-10 lg:grid-cols-12">
         <form onSubmit={onSubmit} noValidate className="space-y-6 lg:col-span-7">

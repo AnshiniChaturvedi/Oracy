@@ -30,7 +30,7 @@ export function AuthShell({ title, subtitle, children, footer }: { title: string
           <p className="mt-4 text-ink/65">{subtitle}</p>
 
           <p role="note" className="mt-6 rounded-xl border border-cobalt/30 bg-cobalt/5 px-4 py-3 text-sm text-ink/80">
-            <strong className="font-medium text-cobalt">Demo mode.</strong> There is no authentication backend yet. Nothing is sent to a server and no real account is created.
+            Your information stays in this browser. No online account is created.
           </p>
 
           <div className="mt-8">{children}</div>

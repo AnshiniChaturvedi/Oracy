@@ -16,7 +16,7 @@ export function Workflow() {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-32">
               <Reveal><Eyebrow>How it works</Eyebrow></Reveal>
-              <SplitText text="Four steps from resume to *readiness.*" className="mt-6 font-display text-display" />
+              <SplitText text="Four steps from resume to readiness." accent="readiness." className="mt-6 font-display text-display" />
               <p className="mt-6 max-w-md text-lg text-ink/65">The same loop, every session, so progress is visible over time.</p>
             </div>
           </div>

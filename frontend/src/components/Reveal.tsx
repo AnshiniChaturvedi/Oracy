@@ -29,34 +29,30 @@ export function Reveal({ children, as = "div", delay = 0, variant = "up", classN
 
 type SplitTextProps = {
   text: string;
+  accent?: string;
   as?: ElementType;
   className?: string;
   delay?: number;
 };
 
-/**
- * Staggered word-by-word headline reveal.
- * Prefix a word with `*` to render it as a cobalt italic accent.
- */
-export function SplitText({ text, as = "h2", className = "", delay = 0 }: SplitTextProps) {
+/** Staggered word-by-word headline reveal with an optional cobalt italic accent. */
+export function SplitText({ text, accent, as = "h2", className = "", delay = 0 }: SplitTextProps) {
   const { ref, inView } = useInView<HTMLElement>(0.3);
   const Tag = as;
   const words = text.split(" ");
-  const plain = text.replace(/\*/g, "");
   return (
     <Tag
       ref={ref}
-      aria-label={plain}
+      aria-label={text}
       className={`split ${inView ? "is-visible" : ""} ${className}`}
       style={{ "--d": `${delay}ms` } as CSSProperties}
     >
       {words.map((word, i) => {
-        const accent = word.startsWith("*");
-        const label = accent ? word.slice(1) : word;
+        const isAccent = word === accent;
         return (
           <span key={i} aria-hidden="true">
             <span className="w" style={{ "--i": i } as CSSProperties}>
-              <span className={accent ? "font-display italic text-cobalt" : ""}>{label}</span>
+              <span className={isAccent ? "font-display italic text-cobalt" : ""}>{word}</span>
             </span>
             {i < words.length - 1 ? " " : ""}
           </span>

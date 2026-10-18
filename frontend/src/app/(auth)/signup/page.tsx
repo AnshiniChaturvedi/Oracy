@@ -9,7 +9,7 @@ export default function SignUpPage() {
   return (
     <AuthShell
       title="Begin."
-      subtitle="Create a demo account to explore ORACY."
+      subtitle="Create an account to explore ORACY."
       footer={<>Already have an account? <Link href="/login" className="text-cobalt underline-offset-4 hover:underline">Sign in</Link></>}
     >
       <SignUpForm />

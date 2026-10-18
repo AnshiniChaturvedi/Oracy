@@ -339,7 +339,7 @@ export function recommendNext(d: DashboardData): NextAction {
       title: t.title,
       minutes: t.minutes,
       skill: weak.name,
-      why: `Your lowest sample score is ${weak.score} in ${weak.name}. Working on your weakest area is the quickest way to lift overall readiness. This is a sample recommendation: no real interview has been analysed.`,
+      why: `Your lowest displayed score is ${weak.score} in ${weak.name}. Working on your weakest area is the quickest way to lift overall readiness. This score is not from a completed interview.`,
       basis: "sample",
       href: "/interview",
       cta: "Start practice",
@@ -403,9 +403,6 @@ export function buildNotifications(d: DashboardData, today: string): AppNotifica
     if (n >= 0 && n <= 30) {
       out.push({ id: `deadline-${d.career.deadline}`, title: n === 0 ? "Your preparation deadline is today" : `${n} day${n === 1 ? "" : "s"} to your preparation deadline`, body: "Review your milestones in Career Launchpad.", href: "/dashboard/career" });
     }
-  }
-  if (d.sampleMode) {
-    out.push({ id: "sample-mode", title: "Sample data is switched on", body: "Scores and sessions marked Sample are illustrative, not real analysis.", href: "/dashboard/settings" });
   }
   return out;
 }

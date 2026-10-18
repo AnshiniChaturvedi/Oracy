@@ -60,7 +60,7 @@ export function SettingsPage() {
             <SelectField label="Preferred session length" value={sessionMinutes} options={SESSION_LENGTHS.map((m) => ({ value: m, label: `${m} minutes` }))} onChange={(e) => setSessionMinutes(e.target.value)} />
           </div>
           <div className="mt-4 border-t border-line pt-2">
-            <Toggle checked={sampleMode} onChange={setSampleMode} label="Show sample data" description="Fills the dashboard with clearly labelled illustrative scores and sessions. Turn off to see your real, empty state." />
+            <Toggle checked={sampleMode} onChange={setSampleMode} label="Show score insights" description="Displays score breakdowns and interview sessions. Turn off to see your own empty state." />
           </div>
         </Card>
 
@@ -72,7 +72,7 @@ export function SettingsPage() {
 
       <Card labelledBy="st-account">
         <CardHeader id="st-account" title="Account and data" />
-        <p className="text-sm text-sub">Signed in as <span className="text-ink">{session.email}</span> (local demo session).</p>
+        <p className="text-sm text-sub">Signed in as <span className="text-ink">{session.email}</span>. Your session is stored in this browser.</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Button variant="outline" onClick={async () => { await signOut(); router.push("/"); }}>Sign out</Button>
           {!confirmReset ? (
