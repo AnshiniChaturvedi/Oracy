@@ -1,0 +1,13 @@
+# Initial setup: only PostgreSQL for local development.
+# Backend/frontend containers and a root Dockerfile are added later.
+services:
+  postgres:
+    image: postgres:16
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
