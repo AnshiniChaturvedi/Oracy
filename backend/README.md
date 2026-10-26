@@ -2,7 +2,7 @@
 
 FastAPI application: REST endpoints under `/api/v1`, validation, database access, orchestration, and application business logic.
 
-**Status:** skeleton only. `GET /api/v1/health` exists. Everything else is planned (see `../docs/API_DESIGN.md`).
+The API currently provides `GET /api/v1/health` and MongoDB-backed `POST /api/v1/auth/signup` and `POST /api/v1/auth/login`. Set `MONGODB_URI` and `MONGODB_DB_NAME` in your environment; the defaults connect to a local MongoDB instance and use the `oracy_db` database. Other API areas remain planned (see `../docs/API_DESIGN.md`).
 
 ```bash
 python -m venv .venv && source .venv/bin/activate

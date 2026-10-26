@@ -1,5 +1,9 @@
 fastapi
 uvicorn[standard]
 pydantic-settings
+pydantic[email]
+motor
+passlib[bcrypt]
+bcrypt==4.0.1
 pytest
 httpx

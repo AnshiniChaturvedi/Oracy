@@ -1,30 +1,19 @@
-/**
- * Authentication service — FRONTEND-ONLY DEMO.
- *
- * The backend currently exposes only `GET /api/v1/health`. There are no
- * auth endpoints, so nothing here talks to a server, creates a real account,
- * or verifies a password. A demo session (name + email only, never a
- * password) is kept in localStorage so the UI flow can be previewed.
- *
- * INTEGRATION POINTS (proposed, not implemented in the backend):
- *   signIn               -> POST   {API}/auth/login
- *   signUp               -> POST   {API}/auth/register
- *   requestPasswordReset -> POST   {API}/auth/password-reset
- *   signOut              -> POST   {API}/auth/logout
- *   getSession           -> GET    {API}/auth/me
- * Replace the bodies below and keep the exported signatures.
- */
+import { siteConfig } from "@/lib/site";
 
 export interface Session {
   name: string;
   email: string;
-  demo: true;
+}
+
+interface AuthUser {
+  name: string;
+  email: string;
 }
 
 const KEY = "oracy.demo.session";
 const EVENT = "oracy:session-change";
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 export function readRawSession(): string | null {
   try {
@@ -39,7 +28,7 @@ export function parseSession(raw: string | null): Session | null {
   try {
     const data = JSON.parse(raw) as Partial<Session>;
     if (typeof data.name === "string" && typeof data.email === "string") {
-      return { name: data.name, email: data.email, demo: true };
+      return { name: data.name, email: data.email };
     }
   } catch {
     /* ignore corrupt value */
@@ -60,27 +49,48 @@ function persist(session: Session) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(session));
   } catch {
-    throw new Error("Your browser blocked local storage, so the demo session could not be saved.");
+    throw new Error("Your browser blocked local storage, so your session could not be saved.");
   }
   window.dispatchEvent(new Event(EVENT));
 }
 
-function nameFromEmail(email: string): string {
-  const local = email.split("@")[0] ?? "";
-  const clean = local.replace(/[._-]+/g, " ").trim();
-  return clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : "Guest";
+async function getErrorMessage(response: Response, action: string): Promise<string> {
+  const errorData = (await response.json().catch(() => ({}))) as { detail?: unknown };
+  return typeof errorData.detail === "string"
+    ? errorData.detail
+    : `${action} failed with status ${response.status}`;
 }
 
 export async function signIn(input: { email: string; password: string }): Promise<Session> {
-  await wait(900); // simulated latency
-  const session: Session = { name: nameFromEmail(input.email), email: input.email.trim(), demo: true };
+  const response = await fetch(`${siteConfig.apiBaseUrl}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getErrorMessage(response, "Sign-in"));
+  }
+
+  const user = (await response.json()) as AuthUser;
+  const session: Session = { name: user.name, email: user.email };
   persist(session);
   return session;
 }
 
 export async function signUp(input: { name: string; email: string; password: string }): Promise<Session> {
-  await wait(1100);
-  const session: Session = { name: input.name.trim(), email: input.email.trim(), demo: true };
+  const response = await fetch(`${siteConfig.apiBaseUrl}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getErrorMessage(response, "Sign-up"));
+  }
+
+  const user = (await response.json()) as AuthUser;
+  const session: Session = { name: user.name, email: user.email };
   persist(session);
   return session;
 }
