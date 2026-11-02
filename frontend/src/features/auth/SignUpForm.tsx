@@ -9,13 +9,12 @@ import { validateConfirm, validateEmail, validateName, validatePassword } from "
 import { useRedirectIfSignedIn } from "@/features/auth/useRedirectIfSignedIn";
 import { signUp } from "@/services/auth";
 
-type Errors = { name?: string; email?: string; password?: string; confirm?: string; ack?: string };
+type Errors = { name?: string; email?: string; password?: string; confirm?: string };
 
 export function SignUpForm() {
   useRedirectIfSignedIn();
   const router = useRouter();
   const [v, setV] = useState({ name: "", email: "", password: "", confirm: "" });
-  const [ack, setAck] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -29,7 +28,6 @@ export function SignUpForm() {
       email: validateEmail(v.email),
       password: validatePassword(v.password),
       confirm: validateConfirm(v.password, v.confirm),
-      ack: ack ? undefined : "Please confirm that no online account will be created.",
     };
     setErrors(next);
     setServerError(null);
@@ -54,14 +52,6 @@ export function SignUpForm() {
       <TextField label="Email" type="email" autoComplete="email" value={v.email} onChange={set("email")} onBlur={() => setErrors((p) => ({ ...p, email: validateEmail(v.email) }))} error={errors.email} placeholder="you@example.com" />
       <PasswordField label="Password" autoComplete="new-password" value={v.password} onChange={set("password")} onBlur={() => setErrors((p) => ({ ...p, password: validatePassword(v.password) }))} error={errors.password} hint="At least 8 characters, with a letter and a number." placeholder="Create a password" />
       <PasswordField label="Confirm password" autoComplete="new-password" value={v.confirm} onChange={set("confirm")} error={errors.confirm} placeholder="Repeat your password" />
-
-      <div>
-        <label className="flex cursor-pointer items-start gap-3 text-sm text-ink/75">
-          <input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} aria-invalid={errors.ack ? true : undefined} className="mt-0.5 h-4 w-4 accent-cobalt" />
-          <span>I understand my information stays in this browser and no online account is created.</span>
-        </label>
-        {errors.ack && <p className="mt-2 text-sm text-red-600">{errors.ack}</p>}
-      </div>
 
       <Button type="submit" disabled={loading} className="w-full">
         {loading ? (<><Spinner /> Creating your profile…</>) : "Create Account"}

@@ -12,3 +12,12 @@ pymupdf
 python-docx
 openai>=1.66,<4
 python-dotenv
+fastapi
+uvicorn[standard]
+pydantic-settings
+pydantic[email]
+motor
+passlib[bcrypt]
+bcrypt==4.0.1
+pytest
+httpx
