@@ -1,0 +1,61 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
+import { Button } from "@/components/Button";
+import { Spinner } from "@/components/Icons";
+import { PasswordField, TextField } from "@/components/forms/Field";
+import { validateConfirm, validateEmail, validateName, validatePassword } from "@/lib/validation";
+import { useRedirectIfSignedIn } from "@/features/auth/useRedirectIfSignedIn";
+import { signUp } from "@/services/auth";
+
+type Errors = { name?: string; email?: string; password?: string; confirm?: string };
+
+export function SignUpForm() {
+  useRedirectIfSignedIn();
+  const router = useRouter();
+  const [v, setV] = useState({ name: "", email: "", password: "", confirm: "" });
+  const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const set = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement>) => setV((p) => ({ ...p, [k]: e.target.value }));
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    const next: Errors = {
+      name: validateName(v.name),
+      email: validateEmail(v.email),
+      password: validatePassword(v.password),
+      confirm: validateConfirm(v.password, v.confirm),
+    };
+    setErrors(next);
+    setServerError(null);
+    if (Object.values(next).some(Boolean)) return;
+
+    setLoading(true);
+    try {
+      await signUp({ name: v.name, email: v.email, password: v.password });
+      router.push("/dashboard");
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setLoading(false);
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} noValidate className="space-y-5" aria-busy={loading}>
+      {serverError && (
+        <div role="alert" className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">{serverError}</div>
+      )}
+      <TextField label="Full name" autoComplete="name" value={v.name} onChange={set("name")} onBlur={() => setErrors((p) => ({ ...p, name: validateName(v.name) }))} error={errors.name} placeholder="Your name" />
+      <TextField label="Email" type="email" autoComplete="email" value={v.email} onChange={set("email")} onBlur={() => setErrors((p) => ({ ...p, email: validateEmail(v.email) }))} error={errors.email} placeholder="you@example.com" />
+      <PasswordField label="Password" autoComplete="new-password" value={v.password} onChange={set("password")} onBlur={() => setErrors((p) => ({ ...p, password: validatePassword(v.password) }))} error={errors.password} hint="At least 8 characters, with a letter and a number." placeholder="Create a password" />
+      <PasswordField label="Confirm password" autoComplete="new-password" value={v.confirm} onChange={set("confirm")} error={errors.confirm} placeholder="Repeat your password" />
+
+      <Button type="submit" disabled={loading} className="w-full">
+        {loading ? (<><Spinner /> Creating your profile…</>) : "Create Account"}
+      </Button>
+    </form>
+  );
+}
