@@ -1,4 +1,8 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_ENV = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
@@ -10,7 +14,10 @@ class Settings(BaseSettings):
     mongodb_uri: str
     mongodb_db_name: str = "oracy_db"
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=(".env", str(_BACKEND_ENV)),
+        extra="ignore",
+    )
 
 
 settings = Settings()
